@@ -21,12 +21,12 @@ class BoardException(Exception):
 class BoardOutException(BoardException):
     def __str__(self):
         return "Вы выстрелилили за пределы игрового поля! " \
-               "Попробуйте ещё раз!"
+               "Попробуйте сделать это ещё раз!"
 
 class BoardUsedException(BoardException):
     def __str__(self):
         return "В эту клетку уже стреляли!" \
-               "Попробуйте ещё раз!"
+               "Попробуйте сделать ещё раз!"
 
 class BoardWrongShipException(BoardException):
     pass
@@ -89,7 +89,7 @@ class Board:
 
 # контур корабля, чтобы точки кораблей не пересекались
     def contour(self, ship, verb = False):
-        #список всех точек вокруг
+        #список всех точек вокруг корабля
         near = [(-1, -1), (-1, 0), (-1, 1),
                 (0, -1), (0, 0), (0, 1),
                 (1, -1), (1, 0), (1, 1)
@@ -137,7 +137,7 @@ class Board:
                 if ship.lives == 0:
                     self.count += 1
                     self.contour(ship, verb = True)
-                    print('Корабль потоплен!')
+                    print('Убит!')
                     return False
                 else:
                     print('Ранен!')
@@ -180,7 +180,7 @@ class User(Player):
             coordinates = input('Ваш ход:  ').split()
 
             if len(coordinates) != 2:
-                print('Введите 2 координаты')
+                print('Введите две координаты')
                 continue
 
             x, y = coordinates
@@ -233,25 +233,25 @@ class Game:
         print(' Добро пожаловать ')
         print('      в игру      ')
         print('  МОРСКОЙ БОЙ')
-        print(' --------------------------- ')
+        print('-'*23)
         print('формат ввода – целые числа ')
         print ('     через пробел    ')
         print(' x – по горизонтали')
         print(' у – по вертикали')
-        print('--------------------------')
+        print('-'*25)
 
     def loop(self):
         num = 0
         while True:
-            print('       ~~~~~      ')
+            print('~'*16)
             print('Игровое поле игрока: ')
             print(self.us.board)
-            print('       ~~~~~      ')
+            print('~'*23)
             print('Игровое поле компьютера: ')
             print(self.ai.board)
-            print('       ~~~~~      ')
+            print('~'*22)
             if num % 2 == 0:
-                print('Ход игрока')
+                print('Ваш ход! Ждём приказа')
                 repeat = self.us.move()
             else:
                 print('Ход компьютера')
@@ -261,12 +261,12 @@ class Game:
 
             if self.ai.board.count == 7:
                 print('       ~~~~~      ')
-                print('Вы победили!')
+                print('ТЫ ПОБЕДИЛ!')
                 break
 
             if self.us.board.count == 7:
                 print('       ~~~~~      ')
-                print('Компьютер выиграл!')
+                print('ТЫ ПРОИГРАЛ =(')
                 break
 
             num += 1
